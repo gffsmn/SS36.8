@@ -1,0 +1,12 @@
+{
+  "appId": "com.aistudio.ss36monitor",
+  "appName": "SS36 AI Monitor",
+  "webDir": "www",
+  "bundledWebRuntime": false,
+  "server": {
+    "allowNavigation": [
+      "*"
+    ],
+    "cleartext": true
+  }
+}

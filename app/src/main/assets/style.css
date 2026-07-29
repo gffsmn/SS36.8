@@ -1,0 +1,489 @@
+:root {
+    --ios-bg: #F2F2F7;
+    --ios-card-bg: #FFFFFF;
+    --ios-text: #1C1C1E;
+    --ios-text-secondary: #8E8E93;
+    --ios-primary: #007AFF;
+    --ios-gray-widget: rgba(255, 255, 255, 0.8);
+    --ios-border: rgba(0, 0, 0, 0.05);
+    
+    --status-green: #34C759;
+    --status-orange: #FF9500;
+    --status-red: #FF3B30;
+}
+
+body.dark-theme {
+    --ios-bg: #000000;
+    --ios-card-bg: #1C1C1E;
+    --ios-text: #FFFFFF;
+    --ios-text-secondary: #AEAEB2;
+    --ios-primary: #0A84FF;
+    --ios-gray-widget: rgba(28, 28, 30, 0.75);
+    --ios-border: rgba(255, 255, 255, 0.05);
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    -webkit-tap-highlight-color: transparent;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background-color: var(--ios-bg);
+    color: var(--ios-text);
+    transition: background-color 0.3s, color 0.3s;
+    overflow-x: hidden;
+}
+
+.screen {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    /* Spazio per l'elemento flottante sul fondo */
+    padding-bottom: 80px; 
+}
+
+.hidden {
+    display: none !important;
+}
+
+/* OTTIMIZZAZIONE RESPONSIVA: CONTENITORE E SAFE AREA */
+.content-wrapper {
+    /* Padding fluido e base, con margine per notch iOS/Android moderni */
+    padding: 16px;
+    padding-left: max(16px, env(safe-area-inset-left));
+    padding-right: max(16px, env(safe-area-inset-right));
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+    flex: 1;
+}
+
+#offline-banner {
+    background-color: var(--status-orange);
+    color: #FFFFFF;
+    text-align: center;
+    padding: 6px 12px;
+    /* Font Fluido per adattamento */
+    font-size: clamp(12px, 3.5vw, 14px);
+    font-weight: 600;
+    position: sticky;
+    top: 0;
+    z-index: 999;
+}
+
+/* OTTIMIZZAZIONE RESPONSIVA: HEADER E SAFE AREA */
+.ios-header {
+    background-color: var(--ios-bg);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    border-bottom: 1px solid var(--ios-border);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    /* Safe-area-inset per top (Notch / Status Bar Android) */
+    padding-top: env(safe-area-inset-top, 0px);
+}
+
+.header-main {
+    display: flex;
+    align-items: center;
+    /* Protezione laterale notch in modalità landscape */
+    padding: 14px max(16px, env(safe-area-inset-left)) 14px max(16px, env(safe-area-inset-right));
+    height: auto;
+    min-height: 64px;
+}
+
+/* OTTIMIZZAZIONI HEADER HOME (Stile Minimal e Centrato) */
+.home-header-main {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Bilancia l'ingombro dell'icona a destra, assicurando che lo spazio vitale sinistro sia uguale */
+.header-left-placeholder {
+    width: 24px;
+    height: 24px;
+}
+
+/* Blocco centrale assolutamente centrato rispetto allo schermo */
+.header-center-block {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+/* Riga titolo e micro-logo per farli fluire in blocco unico */
+.header-title-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px; /* Spazio tra logo e titolo */
+}
+
+.app-logo {
+    display: flex;
+    align-items: center;
+}
+
+/* OTTIMIZZAZIONE RESPONSIVA: CARATTERI FLUIDI (clamp) */
+.header-title-row h1 {
+    font-size: clamp(16px, 4.5vw, 20px);
+    font-weight: 700;
+    letter-spacing: -0.3px;
+    line-height: 1; /* Rimosso spazio extra inutile (premium look iOS) */
+}
+
+.header-center-block p {
+    font-size: clamp(10px, 3vw, 12px);
+    color: var(--ios-text-secondary);
+    margin-top: 4px;
+}
+
+.ios-icon-btn, .ios-back-btn {
+    background: none;
+    border: none;
+    color: var(--ios-primary);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    font-size: clamp(14px, 4vw, 16px);
+    padding: 4px; /* Area di click più comoda per il back button */
+}
+
+/* Rimosso margine destro perché il testo è rimosso */
+.ios-back-btn svg {
+    margin-right: 0;
+}
+
+/* OTTIMIZZAZIONI HEADER DETTAGLIO (Stile Minimal e Centrato) */
+.detail-header-main {
+    position: relative;
+    justify-content: space-between;
+}
+
+/* Centratura geometrica perfetta del titolo e stile premium */
+.detail-title {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    font-weight: 400 !important; /* Molto sottile ed elegante */
+    font-size: clamp(16px, 4.5vw, 18px) !important;
+    letter-spacing: 0.3px; /* Stile iOS elegante */
+    white-space: nowrap;
+    text-align: center;
+    line-height: 1;
+}
+
+/* Bilancia l'ingombro dell'icona a sinistra */
+.header-right-placeholder {
+    width: 28px;
+}
+
+.rotating {
+    animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+    100% { transform: rotate(360deg); }
+}
+
+.ios-card, .status-card {
+    background-color: var(--ios-card-bg);
+    border-radius: 14px;
+    padding: clamp(14px, 4vw, 16px);
+    margin-bottom: 16px;
+    border: 1px solid var(--ios-border);
+}
+
+/* OTTIMIZZAZIONE RESPONSIVA: CARD IN TEMPO REALE FLUIDE */
+.realtime-container {
+    display: grid;
+    /* Passa magicamente a 1 colonna se lo schermo è troppo compatto per 2 colonne */
+    grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+    gap: 12px;
+    margin-bottom: 16px;
+}
+
+.status-card {
+    margin-bottom: 0; /* Margin assorbito dal grid gap */
+}
+
+.status-card .card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.status-card h2 {
+    font-size: clamp(14px, 4vw, 16px);
+    font-weight: 600;
+}
+
+.status-text {
+    font-size: clamp(12px, 3.5vw, 14px);
+    color: var(--ios-text-secondary);
+    line-height: 1.4;
+}
+
+.status-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    display: inline-block;
+    flex-shrink: 0; /* Assicura che non si deformi per testi lunghi */
+}
+
+.status-dot.green { background-color: var(--status-green); }
+.status-dot.orange { background-color: var(--status-orange); }
+.status-dot.red { background-color: var(--status-red); }
+
+.ai-prediction-card h3 {
+    font-size: clamp(15px, 4.5vw, 18px);
+    font-weight: 700;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+}
+
+/* OTTIMIZZAZIONE RESPONSIVA: PREDICTION LIST E CARD */
+.prediction-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.prediction-item-card {
+    background-color: var(--ios-bg);
+    border-radius: 12px;
+    padding: 14px;
+    border: 1px solid var(--ios-border);
+    transition: all 0.3s ease;
+}
+
+.prediction-item-card.critical {
+    border: 1.5px solid var(--status-red);
+    background-color: rgba(255, 59, 48, 0.04);
+}
+
+.prediction-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.prediction-date {
+    font-size: clamp(14px, 4vw, 16px);
+    font-weight: 700;
+    color: var(--ios-text);
+    text-transform: capitalize;
+}
+
+.critical-badge {
+    background-color: var(--status-red);
+    color: #FFFFFF;
+    font-size: clamp(9px, 2.5vw, 10px);
+    font-weight: 800;
+    padding: 4px 8px;
+    border-radius: 6px;
+    letter-spacing: 0.5px;
+    white-space: nowrap;
+}
+
+.prediction-desc {
+    font-size: clamp(12px, 3.5vw, 14px);
+    line-height: 1.5;
+    color: var(--ios-text-secondary);
+}
+
+.ios-btn-primary {
+    background-color: var(--ios-card-bg);
+    color: var(--ios-text);
+    border: 1px solid var(--ios-border);
+    width: 100%;
+    padding: clamp(14px, 4vw, 18px);
+    border-radius: 14px;
+    font-size: clamp(14px, 4vw, 16px);
+    font-weight: 600;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+    cursor: pointer;
+}
+
+.ios-btn-primary span {
+    flex: 1;
+    text-align: left;
+}
+
+.ios-btn-primary svg {
+    color: var(--ios-text-secondary);
+    flex-shrink: 0;
+}
+
+.timeline {
+    position: relative;
+    padding-left: 32px;
+}
+
+.timeline::before {
+    content: '';
+    position: absolute;
+    left: 11px;
+    top: 10px;
+    bottom: 10px;
+    width: 2px;
+    background-color: var(--ios-text-secondary);
+    opacity: 0.3;
+}
+
+.timeline-item {
+    position: relative;
+    margin-bottom: 24px;
+}
+
+.timeline-node {
+    position: absolute;
+    left: -26px; /* Costante per allineamento perfetto della linea (padding dx - pos linea) */
+    top: 4px;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background-color: var(--status-green);
+    border: 2px solid var(--ios-bg);
+    z-index: 2;
+}
+
+.timeline-node.alert-orange { background-color: var(--status-orange); }
+.timeline-node.alert-red { background-color: var(--status-red); }
+
+.timeline-content h4 {
+    font-size: clamp(15px, 4.5vw, 18px);
+    font-weight: 600;
+}
+
+.timeline-info {
+    font-size: clamp(12px, 3.5vw, 14px);
+    color: var(--ios-text-secondary);
+    margin-top: 4px;
+    line-height: 1.4;
+}
+
+/* OTTIMIZZAZIONE RESPONSIVA: WIDGET FLOTTANTE */
+.ios-floating-widget {
+    position: fixed;
+    /* Rispetta i margini inferiori dei telefoni borderless moderni (home indicator) */
+    bottom: max(20px, env(safe-area-inset-bottom));
+    right: max(20px, env(safe-area-inset-right));
+    background: var(--ios-gray-widget);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border: 1px solid var(--ios-border);
+    border-radius: 30px;
+    padding: 10px 18px;
+    display: flex;
+    align-items: center;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+    z-index: 999;
+    /* Sicurezza: evita che esca fuori dallo schermo se la UI è stretta */
+    max-width: calc(100vw - 40px);
+}
+
+.coffee-link {
+    color: var(--ios-text);
+    text-decoration: none;
+    font-size: clamp(12px, 3.5vw, 14px);
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.widget-divider {
+    width: 1px;
+    height: 18px;
+    background-color: var(--ios-text-secondary);
+    opacity: 0.4;
+    margin: 0 12px;
+    flex-shrink: 0;
+}
+
+.theme-btn {
+    background: none;
+    border: none;
+    color: var(--ios-primary);
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.personal-footer {
+    text-align: center;
+    padding: 24px 0;
+    margin-top: auto;
+}
+
+.personal-footer a {
+    display: inline-flex;
+    align-items: center;
+    color: var(--ios-text-secondary);
+    text-decoration: none;
+    font-size: clamp(10px, 3vw, 12px);
+    opacity: 0.7;
+}
+
+.personal-footer span {
+    margin-right: 4px;
+}
+
+.linkedin-icon {
+    color: var(--ios-text-secondary);
+}
+
+/* Nasconde scrollbar */
+::-webkit-scrollbar {
+    width: 0;
+    background: transparent;
+}
+
+/* BEST PRACTICE UI: TOAST NOTIFICATIONS (Non-blocking feedback) */
+.app-toast {
+    position: fixed;
+    bottom: max(90px, env(safe-area-inset-bottom) + 70px);
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: var(--ios-card-bg);
+    color: var(--ios-text);
+    padding: 12px 20px;
+    border-radius: 20px;
+    font-size: clamp(12px, 3.5vw, 14px);
+    font-weight: 500;
+    text-align: center;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    border: 1px solid var(--ios-border);
+    z-index: 1000;
+    transition: opacity 0.3s ease;
+    max-width: 90%;
+    pointer-events: none; /* Evita di bloccare i tap sottostanti */
+}
+
+.app-toast.toast-error {
+    background-color: var(--status-red);
+    color: #FFFFFF;
+    border: none;
+}

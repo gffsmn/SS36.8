@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>SS36 AI Monitor</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="auto-theme">
+
+    <!-- Banner Modalità Offline -->
+    <div id="offline-banner" class="hidden">
+        <span>⚠️ Modalità Offline - Dati memorizzati</span>
+    </div>
+
+    <!-- SCHERMATA PRINCIPALE: MONITORAGGIO -->
+    <main id="home-screen" class="screen">
+        <header class="ios-header">
+            <div class="header-main home-header-main">
+                <!-- Spaziatore sinistro per centratura geometrica perfetta -->
+                <div class="header-left-placeholder"></div>
+                
+                <!-- Blocco centrale perfettamente allineato -->
+                <div class="header-center-block">
+                    <div class="header-title-row">
+                        <!-- Logo SVG Stilizzato in miniatura proporzionata al testo -->
+                        <div class="app-logo">
+                            <svg viewBox="0 0 512 512" width="28" height="28">
+                                <defs>
+                                    <linearGradient id="mGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                                        <stop offset="0%" stop-color="#00D2FF" />
+                                        <stop offset="100%" stop-color="#0066FF" stop-opacity="0.2" />
+                                    </linearGradient>
+                                </defs>
+                                <rect width="512" height="512" rx="115" fill="#1C1C1E" />
+                                <polygon points="100,360 260,140 420,360" fill="url(#mGrad)" stroke="#00D2FF" stroke-width="4" />
+                                <polygon points="256,280 220,280 120,460 392,460 292,280" fill="#3A3A3C" />
+                                <line x1="256" y1="290" x2="256" y2="450" stroke="#FFCC00" stroke-width="6" stroke-dasharray="15,15" />
+                                <path d="M216,370 Q256,355 296,370 L310,395 Q256,390 202,395 Z" fill="#FFFFFF" />
+                                <rect x="205" y="400" width="15" height="5" rx="1" fill="#FF3B30" />
+                                <rect x="292" y="400" width="15" height="5" rx="1" fill="#FF3B30" />
+                            </svg>
+                        </div>
+                        <h1>SS36 AI Monitor</h1>
+                    </div>
+                    <p id="sync-time">Aggiornato: --:--</p>
+                </div>
+                
+                <!-- Pulsante Aggiorna isolato sul lato destro -->
+                <button id="refresh-btn" class="ios-icon-btn" aria-label="Aggiorna">
+                    <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/></svg>
+                </button>
+            </div>
+        </header>
+
+        <section class="content-wrapper">
+            <!-- Box Stato in Tempo Reale -->
+            <div class="realtime-container" aria-live="polite">
+                <div class="status-card" id="status-sud">
+                    <div class="card-header">
+                        <h2>Direzione Sud</h2>
+                        <span class="status-dot green"></span>
+                    </div>
+                    <p class="status-text">Caricamento...</p>
+                </div>
+                <div class="status-card" id="status-nord">
+                    <div class="card-header">
+                        <h2>Direzione Nord</h2>
+                        <span class="status-dot green"></span>
+                    </div>
+                    <p class="status-text">Caricamento...</p>
+                </div>
+            </div>
+
+            <!-- Box Predittivo 5 Giorni -->
+            <div class="ios-card ai-prediction-card">
+                <h3>Previsioni Chiusure e Disagi</h3>
+                <div id="ai-prediction-list" class="prediction-list" aria-live="polite">
+                    <!-- Popolato via JS con date reali -->
+                </div>
+            </div>
+
+            <!-- Pulsanti Direzione: ripetizioni superflue rimosse (minimalismo iOS) -->
+            <div class="navigation-buttons">
+                <button class="ios-btn-primary" onclick="app.openDetail('sud')">
+                    <span>DIREZIONE SUD</span>
+                    <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none"><polyline points="9 18 15 12 9 6"/></svg>
+                </button>
+                <button class="ios-btn-primary" onclick="app.openDetail('nord')">
+                    <span>DIREZIONE NORD</span>
+                    <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none"><polyline points="9 18 15 12 9 6"/></svg>
+                </button>
+            </div>
+        </section>
+
+        <!-- Footer Personale Discreto -->
+        <footer class="personal-footer">
+            <a href="https://www.linkedin.com/in/simone-goffredo/" target="_blank" rel="noopener noreferrer">
+                <span>Simone Goffredo</span>
+                <svg class="linkedin-icon" viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+            </a>
+        </footer>
+    </main>
+
+    <!-- SCHERMATA DI DETTAGLIO: USCITA PER USCITA -->
+    <main id="detail-screen" class="screen hidden">
+        <header class="ios-header">
+            <!-- Classe aggiuntiva per la gestione del layout bilanciato -->
+            <div class="header-main detail-header-main">
+                <button class="ios-back-btn" onclick="app.closeDetail()" aria-label="Indietro">
+                    <!-- Icona minimale a chevron, testo "Home" rimosso -->
+                    <svg viewBox="0 0 24 24" width="28" height="28" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+                </button>
+                <!-- Titolo centrato esattamente a metà, tipografia leggera -->
+                <h1 id="detail-title" class="detail-title">Direzione</h1>
+                <div class="header-right-placeholder"></div>
+            </div>
+        </header>
+
+        <section class="content-wrapper">
+            <div class="timeline" id="timeline-container">
+                <!-- Popolato via JS -->
+            </div>
+        </section>
+    </main>
+
+    <!-- WIDGET FLOTTANTE TRASLUCIDO (Caffè + Cambio Tema) -->
+    <div class="ios-floating-widget">
+        <a href="https://paypal.me/SimoneGoffredo779" target="_blank" rel="noopener noreferrer" class="coffee-link">
+            Offrimi un caffè ☕
+        </a>
+        <div class="widget-divider"></div>
+        <button id="theme-toggle-btn" class="theme-btn" aria-label="Cambia tema">
+            <span id="theme-icon">A</span>
+        </button>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
